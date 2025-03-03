@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-image: url('clovis.jpeg');
+        }
+        .container {
+            background: rgb(110, 52, 52);
+            max-width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora de IMC</h2>
+        <label for="idade">Idade:</label>
+        <input type="number" id="idade" placeholder="Digite sua idade">
+        
+        <label for="sexo">Sexo:</label>
+        <select id="sexo">
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+        </select>
+        
+        <label for="peso">Peso (kg):</label>
+        <input type="number" id="peso" placeholder="Digite seu peso">
+        
+        <label for="altura">Altura (m):</label>
+        <input type="number" step="0.01" id="altura" placeholder="Digite sua altura">
+        
+        <button onclick="calcularIMC()">Calcular</button>
+        
+        <h3 id="resultado"></h3>
+        <p id="pesoIdeal"></p>
+        <p id="dicas"></p>
+    </div>
+
+    <script>
+        function calcularIMC() {
+            let idade = document.getElementById('idade').value;
+            let sexo = document.getElementById('sexo').value;
+            let peso = parseFloat(document.getElementById('peso').value);
+            let altura = parseFloat(document.getElementById('altura').value);
+            
+            if (!peso || !altura || !idade) {
+                alert("Preencha todos os campos corretamente!");
+                return;
+            }
+            
+            let imc = peso / (altura * altura);
+            let pesoMin = 18.5 * (altura * altura);
+            let pesoMax = 24.9 * (altura * altura);
+            let resultado = `Seu IMC é ${imc.toFixed(2)}. `;
+            let pesoIdeal = `Seu peso ideal está entre ${pesoMin.toFixed(2)} kg e ${pesoMax.toFixed(2)} kg.`;
+            let dicas = "";
+            
+            if (imc < 18.5) {
+                resultado += "Você está abaixo do peso.";
+                dicas = "Para ganhar peso, consuma proteínas magras, carboidratos saudáveis e pratique musculação.";
+            } else if (imc >= 18.5 && imc < 24.9) {
+                resultado += "Seu peso está normal.";
+                dicas = "Mantenha uma alimentação equilibrada e pratique exercícios de resistência e aeróbicos.";
+            } else if (imc >= 25 && imc < 29.9) {
+                resultado += "Você está com sobrepeso.";
+                dicas = "Foque em exercícios aeróbicos como corrida e ciclismo e reduza calorias da dieta.";
+            } else {
+                resultado += "Você está com obesidade.";
+                dicas = "Adote uma dieta equilibrada e pratique atividades físicas regularmente, focando em aeróbicos e musculação.";
+            }
+            
+            document.getElementById('resultado').innerText = resultado;
+            document.getElementById('pesoIdeal').innerText = pesoIdeal;
+            document.getElementById('dicas').innerText = dicas;
+        }
+    </script>
+</body>
+</html>
